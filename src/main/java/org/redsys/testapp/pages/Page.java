@@ -1,7 +1,7 @@
 package org.redsys.testapp.pages;
 
 import org.openqa.selenium.WebDriver;
-import org.redsys.testapp.applogic.ApplicationManager;
+import org.redsys.testapp.applogic.AppManager;
 
 /**
  * Created by vyacheslav.vrubel on 20.03.2017.
@@ -9,12 +9,11 @@ import org.redsys.testapp.applogic.ApplicationManager;
 public abstract class Page {
 
     protected WebDriver webDriver;
-    protected ApplicationManager applicationManager;
+    protected AppManager appManager;
 
-    public Page(WebDriver webDriver, ApplicationManager applicationManager)
-    {
+    public Page(WebDriver webDriver, AppManager appManager) {
         this.webDriver = webDriver;
-        this.applicationManager = applicationManager;
+        this.appManager = appManager;
     }
 
     public WebDriver getWebDriver() {

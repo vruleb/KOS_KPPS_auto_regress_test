@@ -1,22 +1,23 @@
 package org.redsys.testapp.model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.UUID;
+import java.io.IOException;
 
 /**
  * Created by vyacheslav.vrubel on 21.03.2017.
  */
 public class DisabledDataRequestDelete extends DisabledDataRequest {
 
-    public DisabledDataRequestDelete(UUID packageUUID) throws FileNotFoundException {
+    public DisabledDataRequestDelete(String packageUUID) throws IOException {
         initRequest(packageUUID);
     }
 
-    private void initRequest(UUID packageUUID) throws FileNotFoundException {
-        String requestTemplate = loadTemplate(new File("./src/main/resources/RequestTemplates/DisabledDataRequest/delete.xml"));
+    private void initRequest(String packageUUID) throws IOException {
+        String requestTemplate = loadResource(new File("./RequestTemplates/DisabledDataRequest/delete.xml"));
+        String certificate = loadResource(new File("./Certificates/emulator.cer"));
 
-        requestTemplate = replaceAll(requestTemplate,"<!--packageUUID-->", packageUUID.toString());
+        requestTemplate = replaceAll(requestTemplate, "<!--packageUUID-->", packageUUID);
+        requestTemplate = replaceAll(requestTemplate, "<!--certificate-->", certificate);
         //установить значение
         this.setRequestStr(requestTemplate);
     }

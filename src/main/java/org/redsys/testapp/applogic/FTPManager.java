@@ -1,7 +1,9 @@
 package org.redsys.testapp.applogic;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.redsys.testapp.model.ZipPackage;
+import org.redsys.testapp.model.KOSPackage;
+import org.redsys.testapp.util.MD5Checksum;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -18,86 +20,83 @@ public class FTPManager {
         ftpClient = new FTPClient();
     }
 
-    public void connect(InetAddress host, int port, String user, String pass) throws IOException {
+    public void connect(InetAddress host, int port, String user, String pass) {
         if (!ftpClient.isConnected()) {
-            ftpClient.connect(host, port);
-            ftpClient.login(user, pass);
+            try {
+                ftpClient.connect(host, port);
+                ftpClient.login(user, pass);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             ftpClient.enterLocalPassiveMode();
         }
     }
 
-    public void closeConnection() throws IOException {
+    public void closeConnection() {
+
         if (ftpClient.isConnected()) {
-            ftpClient.logout();
-            ftpClient.disconnect();
+            try {
+                ftpClient.logout();
+                ftpClient.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void uploadPackage(ZipPackage zipPackage) {
+    public boolean uploadPackage(KOSPackage KOSPackage) {
 
-        String dir = zipPackage.getAttachmentUUID().toString();
-        String fileName = zipPackage.getFile().getName();
+        String dir = KOSPackage.getAttachmentUUID().toString();
+        String fileName = KOSPackage.getFile().getName();
         String remoteFilePath = dir + "/" + fileName;
 
         try {
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             ftpClient.makeDirectory(dir);
-            InputStream inputStream = new FileInputStream(zipPackage.getFile());
+            InputStream inputStream = new FileInputStream(KOSPackage.getFile());
 
-            System.out.println("Start uploading file " + fileName + " into " + dir);
             boolean done = ftpClient.storeFile(remoteFilePath, inputStream);
             inputStream.close();
-            if (done) {
-                System.out.println("The file is uploaded successfully.");
-            }
-
-            // обновление данных о пакете
-            zipPackage.setAttachmentUUID(UUID.randomUUID());
-            zipPackage.setMd5hash(getMD5Checksum(zipPackage.getFile()));
+            return done;
 
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                closeConnection();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            //closeConnection();
+            return false;
         }
     }
 
-    public void deletePackage(UUID attachmentUUID, String fileName) {
+    public boolean deletePackage(UUID attachmentUUID, String fileName) {
 
         String dir = attachmentUUID.toString();
         String remoteFilePath = dir + "/" + fileName;
 
         try {
-            ftpClient.deleteFile(remoteFilePath);
+            return ftpClient.deleteFile(remoteFilePath);
             //удалить директорию, если она пуста
-            ftpClient.removeDirectory(dir);
+            //ftpClient.removeDirectory(dir);
 
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                closeConnection();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            return false;
         }
     }
 
     public String getRemoteFileHash(String fileName, UUID attachmentUUID) {
 
-        File tmpFile;
+        File tmpFile = null;
         try {
             tmpFile = File.createTempFile("package", ".zip");
-            downloadFile(fileName, attachmentUUID, tmpFile);
-            return getMD5Checksum(tmpFile);
-
         } catch (IOException e) {
+            System.out.println("Не удалось создать временный файл для рассчета хеш-суммы.");
             e.printStackTrace();
             return null;
         }
+
+        if (downloadFile(fileName, attachmentUUID, tmpFile)) {
+            return MD5Checksum.getMD5Checksum(tmpFile);
+        }
+        return null;
     }
 
     public boolean downloadFile(String fileName, UUID attachmentUUID, File localFile) {
@@ -105,6 +104,11 @@ public class FTPManager {
         try {
             OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(localFile));
             InputStream inputStream = ftpClient.retrieveFileStream(remoteFilePath);
+            int returnCode = ftpClient.getReplyCode();
+            if (inputStream == null || returnCode == 550) {
+                System.out.println("Файл " + remoteFilePath + " не найден в хранилище.");
+                return false;
+            }
             byte[] bytesArray = new byte[4096];
             int bytesRead = -1;
             while ((bytesRead = inputStream.read(bytesArray)) != -1) {
@@ -112,29 +116,13 @@ public class FTPManager {
             }
 
             boolean success = ftpClient.completePendingCommand();
-            if (success) {
-                System.out.println("File has been downloaded successfully.");
-            }
             outputStream.close();
             inputStream.close();
-            return true;
+            return success;
 
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            try {
-                closeConnection();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         }
-    }
-
-    private String getMD5Checksum(File file) throws IOException {
-        FileInputStream fis = new FileInputStream(file);
-        String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(fis);
-        fis.close();
-        return md5;
     }
 }

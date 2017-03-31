@@ -2,34 +2,22 @@ package org.redsys.testapp.model;
 
 import java.io.File;
 
-import java.util.UUID;
-
 /**
  * Created by vyacheslav.vrubel on 20.03.2017.
  */
-public class ZipPackage {
+public class KOSPackage {
 
     private File file;              //путь к файлу
     private String docTypeCode;     //формат пакета
     private String docTypeVersion;  //версия формата пакета
     private Integer regionCode;     //код региона
     private String sourceId;        //поставщик сведений
-
-    private UUID packageUUID;       //UUID пакета
-    private UUID attachmentUUID;    //директория, в которой находится/будет находиться пакет
-
+    private String packageUUID;       //UUID пакета
+    private String attachmentUUID;    //UUID вложения
     private String md5hash;
 
-    public void setPackageUUID(UUID packageUUID) {
-        this.packageUUID = packageUUID;
-    }
-
-    public void setAttachmentUUID(UUID attachmentUUID) {
-        this.attachmentUUID = attachmentUUID;
-    }
-
-    public ZipPackage(File file, String docTypeCode, String docTypeVersion, Integer regionCode, String sourceId,
-                      UUID packageUUID, UUID attachmentUUID, String md5hash) {
+    public KOSPackage(File file, String docTypeCode, String docTypeVersion, Integer regionCode, String sourceId,
+                      String packageUUID, String attachmentUUID, String md5hash) {
         this.file = file;
         this.docTypeCode = docTypeCode;
         this.docTypeVersion = docTypeVersion;
@@ -56,20 +44,28 @@ public class ZipPackage {
         return regionCode;
     }
 
-    public UUID getPackageUUID() {
+    public String getPackageUUID() {
         return packageUUID;
     }
 
-    public UUID getAttachmentUUID() {
+    public void setPackageUUID(String packageUUID) {
+        this.packageUUID = packageUUID;
+    }
+
+    public String getAttachmentUUID() {
         return attachmentUUID;
     }
 
-    public void setMd5hash(String md5hash) {
-        this.md5hash = md5hash;
+    public void setAttachmentUUID(String attachmentUUID) {
+        this.attachmentUUID = attachmentUUID;
     }
 
     public String getMd5hash() {
         return md5hash;
+    }
+
+    public void setMd5hash(String md5hash) {
+        this.md5hash = md5hash;
     }
 
     public String getSourceId() {

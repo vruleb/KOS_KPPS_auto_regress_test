@@ -4,7 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.redsys.testapp.applogic.ApplicationManager;
+import org.redsys.testapp.applogic.AppManager;
 
 /**
  * Created by vyacheslav.vrubel on 21.03.2017.
@@ -16,15 +16,15 @@ public class SMEVSendingRequestPage extends Page {
     @FindBy(id = "request")
     private WebElement reqTextArea;
 
-    public SMEVSendingRequestPage(WebDriver webDriver, ApplicationManager applicationManager)
-    {
-        super(webDriver, applicationManager);
+    public SMEVSendingRequestPage(WebDriver webDriver, AppManager appManager) {
+        super(webDriver, appManager);
     }
 
     public void setRequest(String requestStr) {
         //reqTextArea.sendKeys(requestStr);
-        ((JavascriptExecutor)webDriver).executeScript("arguments[0].value = arguments[1];", reqTextArea,
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].value = arguments[1];", reqTextArea,
                 requestStr);
+
         reqTextArea.sendKeys(" ");
     }
 

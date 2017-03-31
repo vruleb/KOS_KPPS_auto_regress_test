@@ -1,8 +1,9 @@
 package org.redsys.testapp.model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,8 +22,10 @@ public abstract class BaseRequest {
         this.requestStr = requestStr;
     }
 
-    protected String loadTemplate(File resource) throws FileNotFoundException {
-        return new Scanner(resource).useDelimiter("\\Z").next();
+    protected String loadResource(File resource) throws IOException {
+        String str = null;
+        str = new String(Files.readAllBytes(resource.toPath()), StandardCharsets.UTF_8);
+        return str;
     }
 
     protected String replaceAll(String in, String oldStr, String newStr) {

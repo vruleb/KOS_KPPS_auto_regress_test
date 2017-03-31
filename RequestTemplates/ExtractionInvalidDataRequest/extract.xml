@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope
+        xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns2:GetRequestResponse
+                xmlns="urn://x-artefacts-smev-gov-ru/services/message-exchange/types/basic/1.1"
+                xmlns:ns2="urn://x-artefacts-smev-gov-ru/services/message-exchange/types/1.1"
+                xmlns:ns3="urn://x-artefacts-smev-gov-ru/services/message-exchange/types/faults/1.1">
+            <ns2:RequestMessage>
+                <ns2:Request Id="SIGNED_BY_SMEV">
+                    <ns2:SenderProvidedRequestData Id="SIGNED_BY_CONSUMER">
+                        <ns2:MessageID>035ec23f-08e6-11e5-ae99-089e0172626c</ns2:MessageID>
+                        <MessagePrimaryContent>
+                            <tns:ExtractionInvalidDataRequest
+                                    xmlns:tns="http://kvs.fri.com/extraction-invalid-data/1.0.1">
+                                <tns:SNILS><!--SNILS--></tns:SNILS>
+                                <tns:ExtractionPeriod>
+                                    <tns:DocumentsValidOnDate><!--validOn--></tns:DocumentsValidOnDate>
+                                    <tns:DocumentsOnPeriod>
+                                        <tns:DateFrom><!--dateFrom--></tns:DateFrom>
+                                        <tns:DateTo><!--dateTo--></tns:DateTo>
+                                    </tns:DocumentsOnPeriod>
+                                </tns:ExtractionPeriod>
+                            </tns:ExtractionInvalidDataRequest>
+                        </MessagePrimaryContent>
+                    </ns2:SenderProvidedRequestData>
+                    <ns2:MessageMetadata>
+                        <ns2:MessageType>REQUEST</ns2:MessageType>
+                        <ns2:Sender>
+                            <ns2:Mnemonic>230001</ns2:Mnemonic>
+                            <ns2:HumanReadableName>МинЗдрав</ns2:HumanReadableName>
+                        </ns2:Sender>
+                        <ns2:SendingTimestamp>2015-06-02T08:12:49.844+03:00</ns2:SendingTimestamp>
+                        <ns2:Recipient>
+                            <ns2:Mnemonic>PFR002</ns2:Mnemonic>
+                            <ns2:HumanReadableName>ПФР</ns2:HumanReadableName>
+                        </ns2:Recipient>
+                        <ns2:SupplementaryData>
+                            <ns2:DetectedContentTypeName>Выписка сведений об инвалиде</ns2:DetectedContentTypeName>
+                            <ns2:InteractionType>NotDetected</ns2:InteractionType>
+                        </ns2:SupplementaryData>
+                        <ns2:DeliveryTimestamp>2015-06-08T12:06:07.149+03:00</ns2:DeliveryTimestamp>
+                    </ns2:MessageMetadata>
+                    <ns2:ReplyTo>7260|SnilsValidationRequest_1.0.0|035ec23f-08e6-11e5-ae99-089e0172626c               </ns2:ReplyTo>
+                    <ns2:SenderInformationSystemSignature>
+                        <ds:Signature
+                                xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                            <ds:SignedInfo>
+                                <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                                <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#gostr34102001-gostr3411" />
+                                <ds:Reference URI="#SIGNED_BY_CONSUMER">
+                                    <ds:Transforms>
+                                        <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                                        <ds:Transform Algorithm="urn://smev-gov-ru/xmldsig/transform" />
+                                    </ds:Transforms>
+                                    <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#gostr3411" />
+                                    <ds:DigestValue>Z/chca/E723Zg34Dfa5f71Fj/qKA1dDATACGpTx274Q=</ds:DigestValue>
+                                </ds:Reference>
+                            </ds:SignedInfo>
+                            <ds:SignatureValue>9f+XestR3A1Q4ISgIHDMGzda3tZXqAfw8h70CJqi/0zLTL7II+W1eC3pViwZGx3X5Adjsb40XbAu1VvCB3TAgw==</ds:SignatureValue>
+                            <ds:KeyInfo>
+                                <ds:X509Data>
+                                    <ds:X509Certificate>MIIDozCCAougAwIBAgIJAJIzD/ncCBeeMA0GCSqGSIb3DQEBBQUAMGgxCzAJBgNVBAYTAlJVMQ8wDQYDVQQIDAZSdXNzaWExDjAMBgNVBAcMBU1vc293MQ8wDQYDVQQKDAZSZWRTeXMxEzARBgNVBAsMCkRldiBSZWRTeXMxEjAQBgNVBAMMCXJlZHN5cy5ydTAeFw0xNTEyMTExMzQ5MzJaFw00MzEyMjQxMzQ5MzJaMGgxCzAJBgNVBAYTAlJVMQ8wDQYDVQQIDAZSdXNzaWExDjAMBgNVBAcMBU1vc293MQ8wDQYDVQQKDAZSZWRTeXMxEzARBgNVBAsMCkRldiBSZWRTeXMxEjAQBgNVBAMMCXJlZHN5cy5ydTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALNHlKUG5ZxA6JLAVM5o+2iK6ohuO/1Gu4rHSaDq3D0D9aTVb369XUVniSWYBRj0h3EjXDmPm1S9zUW5rwFPMXAkag4HmXSlS4jt7zRe9XMWgkB7n+lcaNFc8eNTzOsMKVsX+C8qSESabsiuREjco5TdG+u1JL0UUOCkcwgSCAled9/BmL0PR4z5khqhLJPlGSGI7f95l5pfKTOmxW7lht0Ab09JlG6QyxsWvLVFTIRau8knj2IzIKtadXTdR/yiTSVLXaZ/YF+ZLMJhbm4cuMjDtnFGuLa9DeK83eD/h6m9lsCea6I08U6Kkph1wQogaWh17eWw9ZIZSDJFq4QRbEsCAwEAAaNQME4wHQYDVR0OBBYEFLolmEfE0/1VyhmpEnB8Fw+g23KdMB8GA1UdIwQYMBaAFLolmEfE0/1VyhmpEnB8Fw+g23KdMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAFcpizJHeTRMetfGPyxHpk6yulyj8yIdI06qT3CQdrTix2YA95U+UqxibAmidQ0qudq9yzGYxCo+yaxmmNrZ2pjsr35hy0hZZKT9ajKa/yKMn3kHgNZqTrE5ILuhZP7yE38k8/XYDFouyfPbvDHY76rAUQX2A7zC0OkDx/vSDLWtenCt6b+Yc0Pd4ji9xA7DqT5GnsEFS7/XE+AOSAgC1lr95z3xjWb/ZmrFCX6P86FxkILomz6KT5pk3DOhWHtvpncsI+yMdBC+GSRZROpwcPH3lytX3Gh9wJDZYTDSIk07oLAp3JLKNK64u7Y06KyslL4vQHmBxLhryDsll+yo+cU=</ds:X509Certificate>
+                                </ds:X509Data>
+                            </ds:KeyInfo>
+                        </ds:Signature>
+                    </ns2:SenderInformationSystemSignature>
+                </ns2:Request>
+                <ns2:SMEVSignature>
+                    <ds:Signature
+                            xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                        <ds:SignedInfo>
+                            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                            <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#gostr34102001-gostr3411" />
+                            <ds:Reference URI="#SIGNED_BY_SMEV">
+                                <ds:Transforms>
+                                    <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                                    <ds:Transform Algorithm="urn://smev-gov-ru/xmldsig/transform" />
+                                </ds:Transforms>
+                                <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#gostr3411" />
+                                <ds:DigestValue>4iUYYCQw2WsQvaYGf6Dph/B/h137oSr8AH1VAyITN44=</ds:DigestValue>
+                            </ds:Reference>
+                        </ds:SignedInfo>
+                        <ds:SignatureValue>1qa5OaCJELK2WHLmO/YFurdiJeZC17v1A+/UvEBMU2/DNvyDY55knRI9KIEHwyeSCLRNicY5wXMrew/5x7WK+w==</ds:SignatureValue>
+                        <ds:KeyInfo>
+                            <ds:X509Data>
+                                <ds:X509Certificate>MIIBgjCCAS+gAwIBAgIEIZVuDjAKBgYqhQMCAgMFADA2MRgwFgYDVQQLEw9DbGllbnRDb25uZWN0b3IxDTALBgNVBAoTBFNNRVYxCzAJBgNVBAYTAlJVMB4XDTE1MDIxODA4Mjk1NFoXDTE2MDIxODA4Mjk1NFowNjEYMBYGA1UECxMPQ2xpZW50Q29ubmVjdG9yMQ0wCwYDVQQKEwRTTUVWMQswCQYDVQQGEwJSVTBjMBwGBiqFAwICEzASBgcqhQMCAiMBBgcqhQMCAh4BA0MABEBNivrTB1vtc0ixaLsM5uF31QfjNt9YtNMke171Z8p2u7cdVhytL9ZChccub4M1o7rwSrWzVb9y8hOQS17Tz7/DoyEwHzAdBgNVHQ4EFgQUjTv90YjUZHALbK9IWvZqBpgkfSMwCgYGKoUDAgIDBQADQQCo39AdV8PzfrJfgubqvpeZcm8mtnkro30Ni1/t2yYdC2OpdH4GjVd59PkrGGX6K6l9IBJXFejSY6QDk9uuCYS1</ds:X509Certificate>
+                            </ds:X509Data>
+                        </ds:KeyInfo>
+                    </ds:Signature>
+                </ns2:SMEVSignature>
+            </ns2:RequestMessage>
+        </ns2:GetRequestResponse>
+    </S:Body>
+</S:Envelope>
