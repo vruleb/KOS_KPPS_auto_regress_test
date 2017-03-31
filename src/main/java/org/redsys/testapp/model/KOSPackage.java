@@ -9,10 +9,11 @@ import java.util.UUID;
  */
 public class ZipPackage {
 
-    private File file;              //путь к zip-архиву с пакетом на локальном компьютере
+    private File file;              //путь к файлу
     private String docTypeCode;     //формат пакета
     private String docTypeVersion;  //версия формата пакета
     private Integer regionCode;     //код региона
+    private String sourceId;        //поставщик сведений
 
     private UUID packageUUID;       //UUID пакета
     private UUID attachmentUUID;    //директория, в которой находится/будет находиться пакет
@@ -27,16 +28,16 @@ public class ZipPackage {
         this.attachmentUUID = attachmentUUID;
     }
 
-    public ZipPackage(File file, String docTypeCode, String docTypeVersion, Integer regionCode,
+    public ZipPackage(File file, String docTypeCode, String docTypeVersion, Integer regionCode, String sourceId,
                       UUID packageUUID, UUID attachmentUUID, String md5hash) {
         this.file = file;
         this.docTypeCode = docTypeCode;
         this.docTypeVersion = docTypeVersion;
         this.regionCode = regionCode;
+        this.sourceId = sourceId;
         this.md5hash = md5hash;
-
-        this.packageUUID = (packageUUID != null) ? packageUUID : UUID.randomUUID();
-        this.attachmentUUID = (attachmentUUID != null) ? attachmentUUID : UUID.randomUUID();
+        this.packageUUID = packageUUID;
+        this.attachmentUUID = attachmentUUID;
     }
 
     public File getFile() {
@@ -69,5 +70,13 @@ public class ZipPackage {
 
     public String getMd5hash() {
         return md5hash;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 }
